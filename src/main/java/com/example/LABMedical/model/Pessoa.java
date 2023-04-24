@@ -1,5 +1,7 @@
 package com.example.LABMedical.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
 
@@ -17,4 +19,6 @@ public abstract class Pessoa {
     public void setId(Integer id) {
         this.id = id;
     }
+
+
 }

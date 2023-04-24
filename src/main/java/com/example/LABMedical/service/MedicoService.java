@@ -1,5 +1,6 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Medico.MedicoAtualizacaoDTO;
 import com.example.LABMedical.dto.Medico.MedicoCadastroDTO;
 import com.example.LABMedical.mapper.MedicoMapper;
 import com.example.LABMedical.model.Medico;
@@ -30,7 +31,32 @@ public class MedicoService {
         }
         Medico medicoSalvo = medicoMapper.map(medicoRequest);
         medicoRepository.save(medicoSalvo);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Médico cadastrado com sucesso. ID: " + medicoSalvo.getId());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("O cadastro foi efetuado ID: " +medicoSalvo.getId()+" "+medicoSalvo.toString());
 
+    }
+
+    public ResponseEntity<String> atualizaMedicoPorId(Integer id, MedicoAtualizacaoDTO medicoRequest) {
+        Medico medicoAtualizado = medicoRepository.getById(id);
+        if (medicoAtualizado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: "+id+" não retornou nenhum cadastro");
+        }else {
+            medicoAtualizado.setNomeCompleto(medicoRequest.getNomeCompleto());
+            medicoAtualizado.setGenero(medicoRequest.getGenero());
+            medicoAtualizado.setDataNascimento(medicoRequest.getDataNascimento());
+            medicoAtualizado.setEstadoCivil(medicoRequest.getEstadoCivil());
+            medicoAtualizado.setTelefone(medicoRequest.getTelefone());
+            medicoAtualizado.setEmail(medicoRequest.getEmail());
+            medicoAtualizado.setNaturalidade(medicoRequest.getNaturalidade());
+            medicoAtualizado.setCRM(medicoRequest.getCRM());
+            medicoAtualizado.setEspecializacaoClinica(medicoRequest.getEspecializacaoClinica());
+
+            medicoRepository.save(medicoAtualizado);
+
+
+            return ResponseEntity.status(HttpStatus.OK).body("O cadastro foi atualizado ID: " +
+                    medicoAtualizado.getId()+" "+medicoAtualizado.toString());
+        }
     }
 }

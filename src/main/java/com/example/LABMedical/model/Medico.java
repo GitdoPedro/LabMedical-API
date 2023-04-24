@@ -116,4 +116,19 @@ public class Medico extends Pessoa{
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    @Override
+    public String toString() {
+        return "Medico{" +
+                ", nomeCompleto='" + nomeCompleto + '\'' +
+                ", genero='" + genero + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", estadoCivil='" + estadoCivil + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", email='" + email + '\'' +
+                ", Naturalidade='" + Naturalidade + '\'' +
+                ", CRM='" + CRM + '\'' +
+                ", especializacaoClinica='" + especializacaoClinica + '\'' +
+                '}';
+    }
 }
