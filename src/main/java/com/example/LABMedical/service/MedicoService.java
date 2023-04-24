@@ -2,6 +2,7 @@ package com.example.LABMedical.service;
 
 import com.example.LABMedical.dto.Medico.MedicoAtualizacaoDTO;
 import com.example.LABMedical.dto.Medico.MedicoCadastroDTO;
+import com.example.LABMedical.dto.Medico.MedicoSenhaDTO;
 import com.example.LABMedical.mapper.MedicoMapper;
 import com.example.LABMedical.model.Medico;
 import com.example.LABMedical.respository.MedicoRepository;
@@ -59,4 +60,19 @@ public class MedicoService {
                     medicoAtualizado.getId()+" "+medicoAtualizado.toString());
         }
     }
+
+    public ResponseEntity<String> atualizaSenhaMedico(Integer id, MedicoSenhaDTO medicoRequest) {
+        Medico senhaAtualizada = medicoRepository.getById(id);
+        if (senhaAtualizada == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum cadastro");
+        } else {
+            senhaAtualizada.setSenha(medicoRequest.getSenha());
+        }
+        medicoRepository.save(senhaAtualizada);
+        return ResponseEntity.status(HttpStatus.OK).body("A senha foi atualizada para: " +
+                senhaAtualizada.getSenha());
+    }
 }
+
+
