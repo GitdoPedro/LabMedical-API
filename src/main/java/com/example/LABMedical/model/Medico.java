@@ -11,6 +11,8 @@ public class Medico extends Pessoa{
     private String nomeCompleto;
     private String genero;
     private LocalDate dataNascimento;
+
+    @Column(unique = true)
     private String CPF;
     private String RG;
     private String estadoCivil;

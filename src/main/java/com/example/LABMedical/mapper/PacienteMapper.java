@@ -1,4 +1,8 @@
 package com.example.LABMedical.mapper;
 
-public class PacienteMapper {
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface PacienteMapper {
 }

@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class MedicoController {
 
     @Autowired
-    private MedicoService MedicoService;
+    private MedicoService medicoService;
 
     //S01 - Cadastro de Usuários (Médicos)
-    @PostMapping("/adicionar")
+    @PostMapping
     public ResponseEntity<String> salvarMedico(@RequestBody @Valid MedicoCadastroDTO medicoRequest){
-        return MedicoService.salvarMedico(medicoRequest);
+        return medicoService.salvarMedico(medicoRequest);
     }
 
     //S02 - Atualização dos dados de Usuários (Médicos)
     @PutMapping
     public ResponseEntity<String> atualizaMedicoPorId(@RequestParam Integer id,
                                                     @RequestBody @Valid MedicoAtualizacaoDTO medicoRequest) {
-        return MedicoService.atualizaMedicoPorId(id, medicoRequest);
+        return medicoService.atualizaMedicoPorId(id, medicoRequest);
     }
 
     //S03 - Atualização da senha de Usuários (Médicos)
@@ -35,7 +35,7 @@ public class MedicoController {
     @PutMapping("/{id}/senha")
     public ResponseEntity<String> atualizaSenhaMedico(@PathVariable Integer id,
                                                       @RequestBody @Valid MedicoSenhaDTO medicoRequest){
-        return MedicoService.atualizaSenhaMedico(id,medicoRequest);
+        return medicoService.atualizaSenhaMedico(id,medicoRequest);
     }
 
 

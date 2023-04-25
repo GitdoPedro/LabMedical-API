@@ -1,7 +1,6 @@
 package com.example.LABMedical.dto.Medico;
 
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -14,7 +13,6 @@ public class MedicoCadastroDTO {
     private String genero;
     @NotNull(message = "O campo data de nascimento é obrigatório")
     private LocalDate dataNascimento;
-    @Column(unique = true)
     @NotNull(message = "O campo cpf é obrigatório")
     private String CPF;
     @NotNull(message = "O campo rg é obrigatório")

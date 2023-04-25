@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface  MedicoRepository extends JpaRepository<Medico, Integer> {
+public interface MedicoRepository extends JpaRepository<Medico, Integer> {
 
     @Query("SELECT m FROM Medico m WHERE m.CPF = :cpf")
     Optional<Medico> findByCpf(@Param("cpf") String cpf);
