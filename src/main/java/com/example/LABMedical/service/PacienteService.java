@@ -1,8 +1,10 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Paciente.PacienteAtualizacaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteCadastroDTO;
 import com.example.LABMedical.mapper.PacienteMapper;
 import com.example.LABMedical.model.Endereco;
+import com.example.LABMedical.model.Medico;
 import com.example.LABMedical.model.Paciente;
 import com.example.LABMedical.respository.EnderecoRepository;
 import com.example.LABMedical.respository.PacienteRepository;
@@ -29,8 +31,8 @@ public class PacienteService {
     public ResponseEntity<String> salvarPaciente(PacienteCadastroDTO pacienteRequest) {
 
         Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(pacienteRequest.getCPF());
-
         Endereco enderecoEncontrado = enderecoRepository.getById(pacienteRequest.getEnderecoId());
+
         if (enderecoEncontrado == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereço não localizado");
         }else if(pacienteExistente.isPresent()){
@@ -51,7 +53,37 @@ public class PacienteService {
                     body("O cadastro foi efetuado ID: " +pacienteCadastrado.getId()+" "+pacienteCadastrado.toString());
 
         }
+    }
 
+    //reescrever toString
+    public ResponseEntity<String> atualizaPacientePorId(Integer id, PacienteAtualizacaoDTO pacienteRequest) {
+        Paciente pacienteAtualizado = pacienteRepository.getById(id);
+        Endereco enderecoEncontrado = enderecoRepository.getById(pacienteRequest.getEnderecoId());
+        if (pacienteAtualizado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: "+id+" não retornou nenhum cadastro");
+        }else if (enderecoEncontrado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereço não localizado");
+        }else{
+            pacienteAtualizado.setNomeCompleto(pacienteRequest.getNomeCompleto());
+            pacienteAtualizado.setGenero(pacienteRequest.getGenero());
+            pacienteAtualizado.setDataNascimento(pacienteRequest.getDataNascimento());
+            pacienteAtualizado.setEstadoCivil(pacienteRequest.getEstadoCivil());
+            pacienteAtualizado.setTelefone(pacienteRequest.getTelefone());
+            pacienteAtualizado.setEmail(pacienteRequest.getEmail());
+            pacienteAtualizado.setNaturalidade(pacienteRequest.getNaturalidade());
+            pacienteAtualizado.setAlergias(pacienteRequest.getAlergias());
+            pacienteAtualizado.setCuidadosEspecificos(pacienteRequest.getCuidadosEspecificos());
+            pacienteAtualizado.setConvenio(pacienteRequest.getConvenio());
+            pacienteAtualizado.setCarteiraConvenio(pacienteRequest.getCarteiraConvenio());
+            pacienteAtualizado.setValidadeConvenio(pacienteRequest.getValidadeConvenio());
+            pacienteAtualizado.setEndereco(enderecoEncontrado);
+            pacienteRepository.save(pacienteAtualizado);
+
+
+            return ResponseEntity.status(HttpStatus.OK).body("O cadastro foi atualizado ID: " +
+                    pacienteAtualizado.getId()+" "+pacienteAtualizado.toString());
+        }
 
     }
 }

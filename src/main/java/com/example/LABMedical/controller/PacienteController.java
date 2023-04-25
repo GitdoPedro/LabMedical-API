@@ -1,6 +1,7 @@
 package com.example.LABMedical.controller;
 
 
+import com.example.LABMedical.dto.Paciente.PacienteAtualizacaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteCadastroDTO;
 import com.example.LABMedical.service.PacienteService;
 import jakarta.validation.Valid;
@@ -19,6 +20,13 @@ public class PacienteController {
     @PostMapping
     public ResponseEntity<String> salvarPaciente(@RequestBody @Valid PacienteCadastroDTO pacienteRequest){
         return pacienteService.salvarPaciente(pacienteRequest);
+    }
+
+    //S05 - Atualização dos dados de Pacientes
+    @PutMapping
+    public ResponseEntity<String> atualizaPacientePorId(@RequestParam Integer id,
+                                                      @RequestBody @Valid PacienteAtualizacaoDTO pacienteRequest) {
+        return pacienteService.atualizaPacientePorId(id, pacienteRequest);
     }
 
 

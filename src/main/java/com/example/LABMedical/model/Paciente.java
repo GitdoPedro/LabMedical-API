@@ -56,7 +56,9 @@ public class Paciente extends Pessoa{
         this.validadeConvenio = validadeConvenio;
         this.endereco = endereco;
     }
-
+    public Paciente(){
+        super();
+    }
     public String getNomeCompleto() {
         return nomeCompleto;
     }
