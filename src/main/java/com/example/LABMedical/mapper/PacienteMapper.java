@@ -1,6 +1,7 @@
 package com.example.LABMedical.mapper;
 
 import com.example.LABMedical.dto.Endereco.EnderecoListagemDTO;
+import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
 import com.example.LABMedical.dto.Paciente.PacienteListagemDTO;
 import com.example.LABMedical.model.Endereco;
 import com.example.LABMedical.model.Paciente;
@@ -12,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PacienteMapper {
 
-    PacienteListagemDTO map(Paciente source);
+   // PacienteListagemDTO map(Paciente source);
+    PacienteIdentificadorDTO map(Paciente source);
     List<PacienteListagemDTO> toDto(List<Paciente> models);
 }

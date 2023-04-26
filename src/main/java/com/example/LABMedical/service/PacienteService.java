@@ -3,6 +3,7 @@ package com.example.LABMedical.service;
 import com.example.LABMedical.dto.Endereco.EnderecoListagemDTO;
 import com.example.LABMedical.dto.Paciente.PacienteAtualizacaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteCadastroDTO;
+import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
 import com.example.LABMedical.dto.Paciente.PacienteListagemDTO;
 import com.example.LABMedical.mapper.PacienteMapper;
 import com.example.LABMedical.model.Endereco;
@@ -99,5 +100,18 @@ public class PacienteService {
         }
         return pacientes;
 
+    }
+ //reescrever toString
+    public ResponseEntity<String> buscaPacientesPorId(Integer id) {
+        Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
+        PacienteIdentificadorDTO pacienteEncontradoDTO;
+        if (pacienteEncontrado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: "+id+" não retornou nenhum cadastro");
+        }else{
+            pacienteEncontradoDTO = pacienteMapper.map(pacienteEncontrado);
+
+            return ResponseEntity.status(HttpStatus.OK).body(pacienteEncontrado.getNomeCompleto());
+        }
     }
 }

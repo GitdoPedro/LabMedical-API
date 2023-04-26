@@ -36,11 +36,17 @@ public class PacienteController {
 
    // S06 - Listagem de Pacientes
     @GetMapping
-    public ResponseEntity<List<Paciente>> listarEnderecos(
+    public ResponseEntity<List<Paciente>> listarPacientes(
             @RequestParam(required = false) String nome) {
         List<Paciente> pacientes = pacienteService.listarPacientes(nome);
         return ResponseEntity.ok(pacientes);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> buscaPacientesPorId(@PathVariable Integer id) {
+         return pacienteService.buscaPacientesPorId(id);
+    }
+
 
 
 
