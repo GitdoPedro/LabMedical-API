@@ -24,6 +24,7 @@ public class EnderecoController {
         return enderecoService.salvarEndereco(enderecoRequest);
     }
 
+   // S19 - Listagem de Endereco
     @GetMapping
     public ResponseEntity<List<EnderecoListagemDTO>> listarEnderecos() {
         List<EnderecoListagemDTO> enderecos = enderecoService.listarEnderecos();

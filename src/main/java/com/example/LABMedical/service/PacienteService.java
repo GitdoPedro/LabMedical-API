@@ -1,7 +1,9 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Endereco.EnderecoListagemDTO;
 import com.example.LABMedical.dto.Paciente.PacienteAtualizacaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteCadastroDTO;
+import com.example.LABMedical.dto.Paciente.PacienteListagemDTO;
 import com.example.LABMedical.mapper.PacienteMapper;
 import com.example.LABMedical.model.Endereco;
 import com.example.LABMedical.model.Medico;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,6 +87,17 @@ public class PacienteService {
             return ResponseEntity.status(HttpStatus.OK).body("O cadastro foi atualizado ID: " +
                     pacienteAtualizado.getId()+" "+pacienteAtualizado.toString());
         }
+
+    }
+
+    public List<Paciente> listarPacientes(String nomeCompleto) {
+        List<Paciente> pacientes;
+        if (nomeCompleto == null) {
+            pacientes = pacienteRepository.findAll();
+        }else{
+            pacientes = pacienteRepository.findByNome(nomeCompleto);
+        }
+        return pacientes;
 
     }
 }
