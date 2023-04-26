@@ -2,7 +2,9 @@ package com.example.LABMedical.service;
 
 import com.example.LABMedical.dto.Consulta.ConsultaAtualizacaoDTO;
 import com.example.LABMedical.dto.Consulta.ConsultaCadastroDTO;
+import com.example.LABMedical.dto.Consulta.ConsultaExclusaoDTO;
 import com.example.LABMedical.dto.Consulta.ConsultaIdentificadorDTO;
+import com.example.LABMedical.dto.Paciente.PacienteExclusaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.model.Consulta;
@@ -85,6 +87,19 @@ public class ConsultaService {
             consultaEncontradaDTO = consultaMapper.maptoIdDTO(consultaEncontrada);
 
             return ResponseEntity.status(HttpStatus.OK).body(consultaEncontradaDTO.toString());
+        }
+    }
+
+    public ResponseEntity<String> deletarConsultaPorId(Integer id) {
+        Consulta consultaEncontrada = consultaRepository.getReferenceById(id);
+        ConsultaExclusaoDTO consultaExcluida;
+        if (consultaEncontrada == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhuma consulta");
+        } else {
+            consultaExcluida = consultaMapper.maptoExclusaoDTO(consultaEncontrada);// guarda o ultimo excluido
+            consultaRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         }
     }
 }

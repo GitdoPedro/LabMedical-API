@@ -38,5 +38,12 @@ public class ConsultaController {
     }
 
 
+    //S12 - Exclusão de Consulta
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarConsultaPorId(@PathVariable Integer id) {
+        return consultaService.deletarConsultaPorId(id);
+    }
+
+
 
 }
