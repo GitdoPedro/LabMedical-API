@@ -1,10 +1,7 @@
 package com.example.LABMedical.service;
 
 import com.example.LABMedical.dto.Endereco.EnderecoListagemDTO;
-import com.example.LABMedical.dto.Paciente.PacienteAtualizacaoDTO;
-import com.example.LABMedical.dto.Paciente.PacienteCadastroDTO;
-import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
-import com.example.LABMedical.dto.Paciente.PacienteListagemDTO;
+import com.example.LABMedical.dto.Paciente.*;
 import com.example.LABMedical.mapper.PacienteMapper;
 import com.example.LABMedical.model.Endereco;
 import com.example.LABMedical.model.Medico;
@@ -37,24 +34,24 @@ public class PacienteService {
         Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(pacienteRequest.getCPF());
         Endereco enderecoEncontrado = enderecoRepository.getById(pacienteRequest.getEnderecoId());
 
-        if (enderecoEncontrado == null){
+        if (enderecoEncontrado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereço não localizado");
-        }else if(pacienteExistente.isPresent()){
-               return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF já cadastrado.");
-        }else{
-            Paciente pacienteCadastrado = new Paciente (
-                    pacienteRequest.getNomeCompleto(),pacienteRequest.getGenero(),
-                    pacienteRequest.getDataNascimento(),pacienteRequest.getCPF(),
-                    pacienteRequest.getRG(),pacienteRequest.getEstadoCivil(),
-                    pacienteRequest.getTelefone(),pacienteRequest.getEmail(),
-                    pacienteRequest.getNaturalidade(),pacienteRequest.getAlergias(),
-                    pacienteRequest.getCuidadosEspecificos(),pacienteRequest.getContatoEmergencia(),
-                    pacienteRequest.getConvenio(),pacienteRequest.getCarteiraConvenio(),
-                    pacienteRequest.getValidadeConvenio(),enderecoEncontrado
+        } else if (pacienteExistente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF já cadastrado.");
+        } else {
+            Paciente pacienteCadastrado = new Paciente(
+                    pacienteRequest.getNomeCompleto(), pacienteRequest.getGenero(),
+                    pacienteRequest.getDataNascimento(), pacienteRequest.getCPF(),
+                    pacienteRequest.getRG(), pacienteRequest.getEstadoCivil(),
+                    pacienteRequest.getTelefone(), pacienteRequest.getEmail(),
+                    pacienteRequest.getNaturalidade(), pacienteRequest.getAlergias(),
+                    pacienteRequest.getCuidadosEspecificos(), pacienteRequest.getContatoEmergencia(),
+                    pacienteRequest.getConvenio(), pacienteRequest.getCarteiraConvenio(),
+                    pacienteRequest.getValidadeConvenio(), enderecoEncontrado
             );
             pacienteRepository.save(pacienteCadastrado);
             return ResponseEntity.status(HttpStatus.CREATED).
-                    body("O cadastro foi efetuado ID: " +pacienteCadastrado.getId()+" "+pacienteCadastrado.toString());
+                    body("O cadastro foi efetuado ID: " + pacienteCadastrado.getId() + " " + pacienteCadastrado.toString());
 
         }
     }
@@ -63,12 +60,12 @@ public class PacienteService {
     public ResponseEntity<String> atualizaPacientePorId(Integer id, PacienteAtualizacaoDTO pacienteRequest) {
         Paciente pacienteAtualizado = pacienteRepository.getById(id);
         Endereco enderecoEncontrado = enderecoRepository.getById(pacienteRequest.getEnderecoId());
-        if (pacienteAtualizado == null){
+        if (pacienteAtualizado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O id: "+id+" não retornou nenhum cadastro");
-        }else if (enderecoEncontrado == null){
+                    .body("O id: " + id + " não retornou nenhum cadastro");
+        } else if (enderecoEncontrado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereço não localizado");
-        }else{
+        } else {
             pacienteAtualizado.setNomeCompleto(pacienteRequest.getNomeCompleto());
             pacienteAtualizado.setGenero(pacienteRequest.getGenero());
             pacienteAtualizado.setDataNascimento(pacienteRequest.getDataNascimento());
@@ -86,7 +83,7 @@ public class PacienteService {
 
 
             return ResponseEntity.status(HttpStatus.OK).body("O cadastro foi atualizado ID: " +
-                    pacienteAtualizado.getId()+" "+pacienteAtualizado.toString());
+                    pacienteAtualizado.getId() + " " + pacienteAtualizado.toString());
         }
 
     }
@@ -95,23 +92,41 @@ public class PacienteService {
         List<Paciente> pacientes;
         if (nomeCompleto == null) {
             pacientes = pacienteRepository.findAll();
-        }else{
+        } else {
             pacientes = pacienteRepository.findByNome(nomeCompleto);
         }
         return pacientes;
 
     }
- //reescrever toString
+
+    //reescrever toString
     public ResponseEntity<String> buscaPacientesPorId(Integer id) {
         Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
         PacienteIdentificadorDTO pacienteEncontradoDTO;
-        if (pacienteEncontrado == null){
+        if (pacienteEncontrado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O id: "+id+" não retornou nenhum cadastro");
-        }else{
-            pacienteEncontradoDTO = pacienteMapper.map(pacienteEncontrado);
+                    .body("O id: " + id + " não retornou nenhum cadastro");
+        } else {
+            pacienteEncontradoDTO = pacienteMapper.maptoIdDTO(pacienteEncontrado);
 
-            return ResponseEntity.status(HttpStatus.OK).body(pacienteEncontrado.getNomeCompleto());
+            return ResponseEntity.status(HttpStatus.OK).body(pacienteEncontradoDTO.getNomeCompleto());
+        }
+    }
+
+    public ResponseEntity<String> deletarPacientesPorId(Integer id) {
+        Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
+        PacienteExclusaoDTO pacienteExcluido;
+        if (pacienteEncontrado == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum cadastro");
+      /*  }else if(pacienteEncontrado!= null){
+            IMPLEMENTAR HTTP Status Code 400 (Bad Request) em caso de o paciente ter um exame ou consulta
+        }*/
+
+        } else {
+            pacienteExcluido = pacienteMapper.maptoExclusaoDTO(pacienteEncontrado);// guarda o ultimo excluido
+            pacienteRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         }
     }
 }

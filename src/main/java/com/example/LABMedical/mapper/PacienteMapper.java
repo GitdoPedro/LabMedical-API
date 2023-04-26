@@ -1,6 +1,7 @@
 package com.example.LABMedical.mapper;
 
 import com.example.LABMedical.dto.Endereco.EnderecoListagemDTO;
+import com.example.LABMedical.dto.Paciente.PacienteExclusaoDTO;
 import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
 import com.example.LABMedical.dto.Paciente.PacienteListagemDTO;
 import com.example.LABMedical.model.Endereco;
@@ -14,6 +15,7 @@ import java.util.List;
 public interface PacienteMapper {
 
    // PacienteListagemDTO map(Paciente source);
-    PacienteIdentificadorDTO map(Paciente source);
+    PacienteIdentificadorDTO maptoIdDTO(Paciente source);
+    PacienteExclusaoDTO maptoExclusaoDTO(Paciente source);
     List<PacienteListagemDTO> toDto(List<Paciente> models);
 }

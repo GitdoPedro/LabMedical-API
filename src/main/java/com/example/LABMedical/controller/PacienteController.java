@@ -42,9 +42,16 @@ public class PacienteController {
         return ResponseEntity.ok(pacientes);
     }
 
+    //S07 - Listagem de Paciente pelo identificador
     @GetMapping("/{id}")
     public ResponseEntity<String> buscaPacientesPorId(@PathVariable Integer id) {
          return pacienteService.buscaPacientesPorId(id);
+    }
+
+    //S08 - Exclusão de Paciente
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarPacientesPorId(@PathVariable Integer id) {
+        return pacienteService.deletarPacientesPorId(id);
     }
 
 
