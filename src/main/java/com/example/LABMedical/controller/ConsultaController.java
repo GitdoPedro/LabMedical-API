@@ -24,11 +24,19 @@ public class ConsultaController {
         return consultaService.salvarConsulta(consultaRequest);
     }
 
+    //S10 - Atualização dos dados de Consultas
     @PutMapping
     public ResponseEntity<String> atualizaConsultaPorId(@RequestParam Integer id,
                                                         @RequestBody @Valid ConsultaAtualizacaoDTO consultaRequest) {
         return consultaService.atualizaConsultaPorId(id, consultaRequest);
     }
+
+    //S11 - Listagem de Consulta por Identificador
+    @GetMapping("/{id}")
+    public ResponseEntity<String> buscaConsultasPorId(@PathVariable Integer id) {
+        return consultaService.buscaConsultasPorId(id);
+    }
+
 
 
 }

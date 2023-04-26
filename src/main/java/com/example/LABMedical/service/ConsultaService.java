@@ -2,6 +2,8 @@ package com.example.LABMedical.service;
 
 import com.example.LABMedical.dto.Consulta.ConsultaAtualizacaoDTO;
 import com.example.LABMedical.dto.Consulta.ConsultaCadastroDTO;
+import com.example.LABMedical.dto.Consulta.ConsultaIdentificadorDTO;
+import com.example.LABMedical.dto.Paciente.PacienteIdentificadorDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.model.Consulta;
 import com.example.LABMedical.model.Medico;
@@ -73,4 +75,16 @@ public class ConsultaService {
         }
         }
 
+    public ResponseEntity<String> buscaConsultasPorId(Integer id) {
+        Consulta consultaEncontrada = consultaRepository.getReferenceById(id);
+        ConsultaIdentificadorDTO consultaEncontradaDTO;
+        if (consultaEncontrada == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhuma consulta");
+        } else {
+            consultaEncontradaDTO = consultaMapper.maptoIdDTO(consultaEncontrada);
+
+            return ResponseEntity.status(HttpStatus.OK).body(consultaEncontradaDTO.toString());
+        }
+    }
 }
