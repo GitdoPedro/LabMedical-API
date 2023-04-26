@@ -1,5 +1,6 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Consulta.ConsultaAtualizacaoDTO;
 import com.example.LABMedical.dto.Consulta.ConsultaCadastroDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.model.Consulta;
@@ -47,4 +48,29 @@ public class ConsultaService {
                         "id do paciente: "+pacienteEncontrado.getId()+
                         "id do médico: "+medicoEncontrado.getId());
     }
+
+    public ResponseEntity<String> atualizaConsultaPorId(Integer id, ConsultaAtualizacaoDTO consultaRequest) {
+        Paciente pacienteEncontrado = pacienteRepository.getById(consultaRequest.getPacienteId());
+        Medico medicoEncontrado = medicoRepository.getById(consultaRequest.getMedicoId());
+        Consulta consultaAtualizada = consultaRepository.getById(id);
+
+        if(pacienteEncontrado == null || medicoEncontrado == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Consulta não atualizada. Médico ou Paciente não encontrados");
+        }else if(consultaAtualizada == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consulta não localizada");
+        }else{
+            consultaAtualizada.setMotivoConsulta(consultaRequest.getMotivoConsulta());
+            consultaAtualizada.setDescricaoProblema(consultaRequest.getDescricaoProblema());
+            consultaAtualizada.setMedicacaoReceitada(consultaRequest.getMedicacaoReceitada());
+            consultaAtualizada.setDosagemPrecaucao(consultaRequest.getDosagemPrecaucao());
+            consultaAtualizada.setPaciente(pacienteEncontrado);
+            consultaAtualizada.setMedico(medicoEncontrado);
+
+            consultaRepository.save(consultaAtualizada);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("A consulta foi atualizado. " +consultaAtualizada.toString());
+        }
+        }
+
 }
