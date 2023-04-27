@@ -75,7 +75,7 @@ public class ConsultaService {
             return ResponseEntity.status(HttpStatus.OK)
                     .body("A consulta foi atualizado. " +consultaAtualizada.toString());
         }
-        }
+    }
 
     public ResponseEntity<String> buscaConsultasPorId(Integer id) {
         Consulta consultaEncontrada = consultaRepository.getReferenceById(id);

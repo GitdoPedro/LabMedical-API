@@ -1,5 +1,6 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Exame.ExameAtualizacaoDTO;
 import com.example.LABMedical.dto.Exame.ExameCadastroDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.mapper.ExameMapper;
@@ -52,5 +53,32 @@ public class ExameService {
                 .body("Exame cadastrado."+ exameSalvo.toString()+ " "+
                         "id do paciente: "+pacienteEncontrado.getId()+
                         "id do médico: "+medicoEncontrado.getId());
+    }
+
+    public ResponseEntity<String> atualizaExamePorId(Integer id, ExameAtualizacaoDTO exameRequest) {
+        Paciente pacienteEncontrado = pacienteRepository.getById(exameRequest.getPacienteId());
+        Medico medicoEncontrado = medicoRepository.getById(exameRequest.getMedicoId());
+        Exame exameAtualizado = exameRepository.getById(id);
+
+        if(pacienteEncontrado == null || medicoEncontrado == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Exame não atualizado. Médico ou Paciente não encontrados");
+        }else if(exameAtualizado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exame não localizado");
+        }else{
+            exameAtualizado.setNomeExame(exameRequest.getNomeExame());
+            exameAtualizado.setTipoExame(exameRequest.getTipoExame());
+            exameAtualizado.setLaboratorio(exameRequest.getLaboratorio());
+            exameAtualizado.setArquivoExame(exameRequest.getArquivoExame());
+            exameAtualizado.setResultadoExame(exameRequest.getResultadoExame());
+            exameAtualizado.setPaciente(pacienteEncontrado);
+            exameAtualizado.setMedico(medicoEncontrado);
+
+
+            exameRepository.save(exameAtualizado);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("A consulta foi atualizado. " +exameAtualizado.toString());
+        }
+
     }
 }
