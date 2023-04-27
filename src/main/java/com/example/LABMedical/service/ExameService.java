@@ -1,7 +1,9 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Consulta.ConsultaIdentificadorDTO;
 import com.example.LABMedical.dto.Exame.ExameAtualizacaoDTO;
 import com.example.LABMedical.dto.Exame.ExameCadastroDTO;
+import com.example.LABMedical.dto.Exame.ExameIdentificadorDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.mapper.ExameMapper;
 import com.example.LABMedical.model.Consulta;
@@ -78,6 +80,20 @@ public class ExameService {
             exameRepository.save(exameAtualizado);
             return ResponseEntity.status(HttpStatus.OK)
                     .body("A consulta foi atualizado. " +exameAtualizado.toString());
+        }
+
+    }
+
+    public ResponseEntity<String> buscaExamesPorId(Integer id) {
+        Exame exameEncontrado = exameRepository.getReferenceById(id);
+        ExameIdentificadorDTO exameEncontradoDTO;
+        if (exameEncontrado == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum exame");
+        } else {
+            exameEncontradoDTO = exameMapper.maptoIdDTO(exameEncontrado);
+
+            return ResponseEntity.status(HttpStatus.OK).body(exameEncontrado.toString());
         }
 
     }

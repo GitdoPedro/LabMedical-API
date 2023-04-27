@@ -30,4 +30,10 @@ public class ExameController {
                                                         @RequestBody @Valid ExameAtualizacaoDTO exameRequest) {
         return exameService.atualizaExamePorId(id, exameRequest);
     }
+
+    //S15 - Listagem de Exame pelo identificador
+    @GetMapping("/{id}")
+    public ResponseEntity<String> buscaExamesPorId(@PathVariable Integer id) {
+        return exameService.buscaExamesPorId(id);
+    }
 }
