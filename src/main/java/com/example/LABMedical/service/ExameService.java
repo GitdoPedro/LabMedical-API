@@ -1,8 +1,10 @@
 package com.example.LABMedical.service;
 
+import com.example.LABMedical.dto.Consulta.ConsultaExclusaoDTO;
 import com.example.LABMedical.dto.Consulta.ConsultaIdentificadorDTO;
 import com.example.LABMedical.dto.Exame.ExameAtualizacaoDTO;
 import com.example.LABMedical.dto.Exame.ExameCadastroDTO;
+import com.example.LABMedical.dto.Exame.ExameExclusaoDTO;
 import com.example.LABMedical.dto.Exame.ExameIdentificadorDTO;
 import com.example.LABMedical.mapper.ConsultaMapper;
 import com.example.LABMedical.mapper.ExameMapper;
@@ -97,4 +99,18 @@ public class ExameService {
         }
 
     }
+
+    public ResponseEntity<String> deletarExamePorId(Integer id) {
+        Exame exameEncontrado = exameRepository.getReferenceById(id);
+        ExameExclusaoDTO exameExcluida;
+        if (exameEncontrado == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum exame");
+        } else {
+            exameExcluida = exameMapper.maptoExclusaoDTO(exameEncontrado);// guarda o ultimo excluido
+            exameRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+        }
+    }
+
 }

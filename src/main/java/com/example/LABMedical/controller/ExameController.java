@@ -36,4 +36,10 @@ public class ExameController {
     public ResponseEntity<String> buscaExamesPorId(@PathVariable Integer id) {
         return exameService.buscaExamesPorId(id);
     }
+
+    //S16 - Exclusão de Exame
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarExamePorId(@PathVariable Integer id) {
+        return exameService.deletarExamePorId(id);
+    }
 }
