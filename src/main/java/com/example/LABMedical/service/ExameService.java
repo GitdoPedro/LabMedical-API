@@ -16,7 +16,9 @@ import com.example.LABMedical.respository.ConsultaRepository;
 import com.example.LABMedical.respository.ExameRepository;
 import com.example.LABMedical.respository.MedicoRepository;
 import com.example.LABMedical.respository.PacienteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -60,16 +62,15 @@ public class ExameService {
     }
 
     public ResponseEntity<String> atualizaExamePorId(Integer id, ExameAtualizacaoDTO exameRequest) {
-        Paciente pacienteEncontrado = pacienteRepository.getById(exameRequest.getPacienteId());
-        Medico medicoEncontrado = medicoRepository.getById(exameRequest.getMedicoId());
-        Exame exameAtualizado = exameRepository.getById(id);
+        try{
+            Paciente pacienteEncontrado = pacienteRepository.getById(exameRequest.getPacienteId());
+            Medico medicoEncontrado = medicoRepository.getById(exameRequest.getMedicoId());
+            Exame exameAtualizado = exameRepository.getById(id);
 
-        if(pacienteEncontrado == null || medicoEncontrado == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Exame não atualizado. Médico ou Paciente não encontrados");
-        }else if(exameAtualizado == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exame não localizado");
-        }else{
+            if(pacienteEncontrado == null || medicoEncontrado == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Exame não atualizado. Médico ou Paciente não encontrados");
+            }
             exameAtualizado.setNomeExame(exameRequest.getNomeExame());
             exameAtualizado.setTipoExame(exameRequest.getTipoExame());
             exameAtualizado.setLaboratorio(exameRequest.getLaboratorio());
@@ -78,38 +79,38 @@ public class ExameService {
             exameAtualizado.setPaciente(pacienteEncontrado);
             exameAtualizado.setMedico(medicoEncontrado);
 
-
             exameRepository.save(exameAtualizado);
             return ResponseEntity.status(HttpStatus.OK)
                     .body("A consulta foi atualizado. " +exameAtualizado.toString());
-        }
-
-    }
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exame não localizado");
+     }}
 
     public ResponseEntity<String> buscaExamesPorId(Integer id) {
-        Exame exameEncontrado = exameRepository.getReferenceById(id);
-        ExameIdentificadorDTO exameEncontradoDTO;
-        if (exameEncontrado == null) {
+        try{
+            Exame exameEncontrado = exameRepository.getReferenceById(id);
+            ExameIdentificadorDTO exameEncontradoDTO;
+            exameEncontradoDTO = exameMapper.maptoIdDTO(exameEncontrado);
+            return ResponseEntity.status(HttpStatus.OK).body(exameEncontrado.toString());
+
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("O id: " + id + " não retornou nenhum exame");
-        } else {
-            exameEncontradoDTO = exameMapper.maptoIdDTO(exameEncontrado);
-
-            return ResponseEntity.status(HttpStatus.OK).body(exameEncontrado.toString());
         }
 
     }
 
     public ResponseEntity<String> deletarExamePorId(Integer id) {
-        Exame exameEncontrado = exameRepository.getReferenceById(id);
-        ExameExclusaoDTO exameExcluida;
-        if (exameEncontrado == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O id: " + id + " não retornou nenhum exame");
-        } else {
+        try {
+            Exame exameEncontrado = exameRepository.getReferenceById(id);
+            ExameExclusaoDTO exameExcluida;
             exameExcluida = exameMapper.maptoExclusaoDTO(exameEncontrado);// guarda o ultimo excluido
             exameRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum exame");
+
         }
     }
 

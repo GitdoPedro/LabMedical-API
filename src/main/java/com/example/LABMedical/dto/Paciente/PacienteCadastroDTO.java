@@ -160,4 +160,26 @@ public class PacienteCadastroDTO {
     public void setEnderecoId(Integer enderecoId) {
         this.enderecoId = enderecoId;
     }
+
+    @Override
+    public String toString() {
+        return "PacienteCadastroDTO{" +
+                "nomeCompleto='" + nomeCompleto + '\'' +
+                ", genero='" + genero + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", CPF='" + CPF + '\'' +
+                ", RG='" + RG + '\'' +
+                ", estadoCivil='" + estadoCivil + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", email='" + email + '\'' +
+                ", Naturalidade='" + Naturalidade + '\'' +
+                ", Alergias='" + Alergias + '\'' +
+                ", cuidadosEspecificos='" + cuidadosEspecificos + '\'' +
+                ", contatoEmergencia='" + contatoEmergencia + '\'' +
+                ", convenio='" + convenio + '\'' +
+                ", carteiraConvenio='" + carteiraConvenio + '\'' +
+                ", validadeConvenio=" + validadeConvenio +
+                ", enderecoId=" + enderecoId +
+                '}';
+    }
 }

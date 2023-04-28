@@ -6,6 +6,7 @@ import com.example.LABMedical.dto.Medico.MedicoSenhaDTO;
 import com.example.LABMedical.mapper.MedicoMapper;
 import com.example.LABMedical.model.Medico;
 import com.example.LABMedical.respository.MedicoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
@@ -30,19 +31,21 @@ public class MedicoService {
         if (medicoExistente.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF já cadastrado.");
         }
-        Medico medicoSalvo = medicoMapper.map(medicoRequest);
-        medicoRepository.save(medicoSalvo);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("O cadastro foi efetuado ID: " +medicoSalvo.getId()+" "+medicoSalvo.toString());
-
+        try {
+            Medico medicoSalvo = medicoMapper.map(medicoRequest);
+            medicoRepository.save(medicoSalvo);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("O cadastro foi efetuado ID: " + medicoSalvo.getId() + " " + medicoSalvo.toString());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Número inválido de atributos ou atributos inválidos");
+        }
     }
 
     public ResponseEntity<String> atualizaMedicoPorId(Integer id, MedicoAtualizacaoDTO medicoRequest) {
-        Medico medicoAtualizado = medicoRepository.getById(id);
-        if (medicoAtualizado == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O id: "+id+" não retornou nenhum cadastro");
-        }else {
+
+        try {
+            Medico medicoAtualizado = medicoRepository.getById(id);
             medicoAtualizado.setNomeCompleto(medicoRequest.getNomeCompleto());
             medicoAtualizado.setGenero(medicoRequest.getGenero());
             medicoAtualizado.setDataNascimento(medicoRequest.getDataNascimento());
@@ -57,21 +60,28 @@ public class MedicoService {
 
 
             return ResponseEntity.status(HttpStatus.OK).body("O cadastro foi atualizado ID: " +
-                    medicoAtualizado.getId()+" "+medicoAtualizado.toString());
+                    medicoAtualizado.getId() + " " + medicoAtualizado.toString());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum exame");
         }
+
+
     }
 
     public ResponseEntity<String> atualizaSenhaMedico(Integer id, MedicoSenhaDTO medicoRequest) {
-        Medico senhaAtualizada = medicoRepository.getById(id);
-        if (senhaAtualizada == null) {
+        try {
+            Medico senhaAtualizada = medicoRepository.getById(id);
+            senhaAtualizada.setSenha(medicoRequest.getSenha());
+            return ResponseEntity.status(HttpStatus.OK).body("A senha foi atualizada para: " +
+                    senhaAtualizada.getSenha());
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("O id: " + id + " não retornou nenhum cadastro");
-        } else {
-            senhaAtualizada.setSenha(medicoRequest.getSenha());
+
+
         }
-        medicoRepository.save(senhaAtualizada);
-        return ResponseEntity.status(HttpStatus.OK).body("A senha foi atualizada para: " +
-                senhaAtualizada.getSenha());
+
     }
 }
 

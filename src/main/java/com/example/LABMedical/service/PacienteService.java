@@ -7,7 +7,9 @@ import com.example.LABMedical.model.Endereco;
 import com.example.LABMedical.model.Medico;
 import com.example.LABMedical.model.Paciente;
 import com.example.LABMedical.respository.EnderecoRepository;
+import com.example.LABMedical.respository.ExameRepository;
 import com.example.LABMedical.respository.PacienteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +29,16 @@ public class PacienteService {
     @Autowired
     EnderecoRepository enderecoRepository;
 
+    @Autowired
+    ExameService exameService;
+
 
     // reescrever o método toString
     public ResponseEntity<String> salvarPaciente(PacienteCadastroDTO pacienteRequest) {
 
         Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(pacienteRequest.getCPF());
         Endereco enderecoEncontrado = enderecoRepository.getById(pacienteRequest.getEnderecoId());
+
 
         if (enderecoEncontrado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereço não localizado");
@@ -51,8 +57,8 @@ public class PacienteService {
             );
             pacienteRepository.save(pacienteCadastrado);
             return ResponseEntity.status(HttpStatus.CREATED).
-                    body("O cadastro foi efetuado ID: " + pacienteCadastrado.getId() + " " + pacienteCadastrado.toString());
-
+                    body("O cadastro foi efetuado ID: " + pacienteCadastrado.getId() +
+                            " " + pacienteRequest.toString());
         }
     }
 
@@ -99,34 +105,30 @@ public class PacienteService {
 
     }
 
-    //reescrever toString
+
     public ResponseEntity<String> buscaPacientesPorId(Integer id) {
-        Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
-        PacienteIdentificadorDTO pacienteEncontradoDTO;
-        if (pacienteEncontrado == null) {
+        try {
+            Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
+            PacienteIdentificadorDTO pacienteEncontradoDTO;
+            pacienteEncontradoDTO = pacienteMapper.maptoIdDTO(pacienteEncontrado);
+            return ResponseEntity.status(HttpStatus.OK).body(pacienteEncontradoDTO.getNomeCompleto());
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("O id: " + id + " não retornou nenhum cadastro");
-        } else {
-            pacienteEncontradoDTO = pacienteMapper.maptoIdDTO(pacienteEncontrado);
-
-            return ResponseEntity.status(HttpStatus.OK).body(pacienteEncontradoDTO.getNomeCompleto());
         }
     }
 
     public ResponseEntity<String> deletarPacientesPorId(Integer id) {
-        Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
-        PacienteExclusaoDTO pacienteExcluido;
-        if (pacienteEncontrado == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("O id: " + id + " não retornou nenhum cadastro");
-      /*  }else if(pacienteEncontrado!= null){
-            IMPLEMENTAR HTTP Status Code 400 (Bad Request) em caso de o paciente ter um exame ou consulta
-        }*/
-
-        } else {
+        try {
+            Paciente pacienteEncontrado = pacienteRepository.getReferenceById(id);
+            PacienteExclusaoDTO pacienteExcluido;
             pacienteExcluido = pacienteMapper.maptoExclusaoDTO(pacienteEncontrado);// guarda o ultimo excluido
             pacienteRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("O id: " + id + " não retornou nenhum cadastro");
+
         }
     }
 }
