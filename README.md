@@ -35,6 +35,6 @@ o MapStruct para a criação de mapeamentos entre objetos, o Hibernate Validator
 
 
 
-Desenvolvido por:
-Pedro Lima do Nascimento
-<a href="https://www.linkedin.com/in/pedro-lima-12b92332/">Linkedin | <a href="https://github.com/GitdoPedro">Github
+   Desenvolvido por:
+   Pedro Lima do Nascimento
+   <a href="https://www.linkedin.com/in/pedro-lima-12b92332/">Linkedin | <a href="https://github.com/GitdoPedro">Github
