@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "e21d0b14-253c-4750-899e-72a15fcd5916",
+		"name": "LabMedicine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MedicoEndpoints",
+			"item": [
+				{
+					"name": "S01 - Cadastro de Usuários (Médicos)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"João da Silva\",\r\n    \"genero\": \"M\",\r\n    \"dataNascimento\": \"1980-01-01\",\r\n    \"cpf\": \"88588\",\r\n    \"rg\": \"12345678\",\r\n    \"estadoCivil\": \"Solteiro\",\r\n    \"telefone\": \"(11) 1234-5678\",\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"naturalidade\": \"São Paulo\",\r\n    \"crm\": \"65654654654\",\r\n    \"especializacaoClinica\": \"Cardiologia\",\r\n    \"senha\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S02 - Atualização dos dados de Usuários (Médicos)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"João da Silva\",\r\n    \"genero\": \"M\",\r\n    \"dataNascimento\": \"1980-01-01\",\r\n    \"cpf\": null,\r\n    \"rg\": \"12345678\",\r\n    \"estadoCivil\": \"Solteiro\",\r\n    \"telefone\": \"(11) 1234-5678\",\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"naturalidade\": \"São Paulo\",\r\n    \"crm\": null,\r\n    \"especializacaoClinica\": \"Cardiologia\",\r\n    \"senha\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/usuarios?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S03 - Atualização da senha de Usuários (Médicos)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senha\": \"senha123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/usuarios/1/senha",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"usuarios",
+								"1",
+								"senha"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EnderecoEndpoints",
+			"item": [
+				{
+					"name": "S18 - Cadastro de Endereco",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cep\": \"12345-678\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\",\r\n    \"logradouro\": \"Rua Teste\",\r\n    \"numero\": 123,\r\n    \"complemento\": \"Apto 123\",\r\n    \"bairro\": \"Centro\",\r\n    \"pontoReferencia\": \"Próximo à Praça da Sé\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S19 - Listagem de Endereco",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PacienteEndpoints",
+			"item": [
+				{
+					"name": "S04 - Cadastro de Paciente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Roberto Oliveira\",\r\n    \"genero\": \"Masculino\",\r\n    \"dataNascimento\": \"1990-01-01\",\r\n    \"CPF\": \"12345678900\",\r\n    \"RG\": \"123456789\",\r\n    \"estadoCivil\": \"Solteiro\",\r\n    \"telefone\": \"(11) 99999-9999\",\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"Naturalidade\": \"São Paulo\",\r\n    \"Alergias\": [\"alergia1\", \"alergia2\"],\r\n    \"cuidadosEspecificos\": [\"cuidado1\", \"cuidado2\"],\r\n    \"contatoEmergencia\": \"(11) 98888-8888\",\r\n    \"convenio\": \"Convenio1\",\r\n    \"carteiraConvenio\": \"123456\",\r\n    \"validadeConvenio\": \"2023-12-31\",\r\n    \"enderecoId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S06 - Listagem de Pacientes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S07 - Listagem de Paciente pelo identificador",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S08 - Exclusão de Paciente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S05 - Atualização dos dados de Pacientes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nomeCompleto\": \"Ciclano de Tal\",\r\n  \"genero\": \"Masculino\",\r\n  \"dataNascimento\": \"1995-02-15\",\r\n  \"estadoCivil\": \"Casado\",\r\n  \"telefone\": \"(11) 9876-5432\",\r\n  \"email\": \"ciclano@gmail.com\",\r\n  \"naturalidade\": \"Rio de Janeiro\",\r\n  \"alergias\": \"Alérgico a amendoim,Alérgico a camarão,Alérgico a lactose\",\r\n  \"cuidadosEspecificos\": \"Necessita de cuidados com a pele,Necessita de cuidados com a alimentação\",\r\n  \"contatoEmergencia\": \"(11) 9988-7766\",\r\n  \"convenio\": \"Bradesco Saúde\",\r\n  \"carteiraConvenio\": \"987654321\",\r\n  \"validadeConvenio\": \"2026-03-31\",\r\n  \"enderecoId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ConsultaEndpoints",
+			"item": [
+				{
+					"name": "S09 - Cadastro de Consulta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Roberto Oliveira\",\r\n    \"genero\": \"Masculino\",\r\n    \"dataNascimento\": \"1990-01-01\",\r\n    \"CPF\": \"12345678900\",\r\n    \"RG\": \"123456789\",\r\n    \"estadoCivil\": \"Solteiro\",\r\n    \"telefone\": \"(11) 99999-9999\",\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"Naturalidade\": \"São Paulo\",\r\n    \"Alergias\": [\"alergia1\", \"alergia2\"],\r\n    \"cuidadosEspecificos\": [\"cuidado1\", \"cuidado2\"],\r\n    \"contatoEmergencia\": \"(11) 98888-8888\",\r\n    \"convenio\": \"Convenio1\",\r\n    \"carteiraConvenio\": \"123456\",\r\n    \"validadeConvenio\": \"2023-12-31\",\r\n    \"enderecoId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/consultas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S14 - Atualização dos dados de Consultas",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"motivoConsulta\": \"Dor de cabeça forte\",\r\n    \"descricaoProblema\": \"Paciente apresenta dor de cabeça há 3 dias\",\r\n    \"medicacaoReceitada\": \"ibuprofeno\",\r\n    \"dosagemPrecaucao\": \"3 comprimido de paracetamol 500mg e 1 comprimido de ibuprofeno 400mg a cada 6 horas\",\r\n    \"pacienteId\": 20,\r\n    \"medicoId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/consultas?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S11 - Listagem de Consulta por Identificador",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S12 - Exclusão de Consulta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ExameEndpoints",
+			"item": [
+				{
+					"name": "S13 - Cadastro de Exame",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Roberto Oliveira\",\r\n    \"genero\": \"Masculino\",\r\n    \"dataNascimento\": \"1990-01-01\",\r\n    \"CPF\": \"12345678900\",\r\n    \"RG\": \"123456789\",\r\n    \"estadoCivil\": \"Solteiro\",\r\n    \"telefone\": \"(11) 99999-9999\",\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"Naturalidade\": \"São Paulo\",\r\n    \"Alergias\": [\"alergia1\", \"alergia2\"],\r\n    \"cuidadosEspecificos\": [\"cuidado1\", \"cuidado2\"],\r\n    \"contatoEmergencia\": \"(11) 98888-8888\",\r\n    \"convenio\": \"Convenio1\",\r\n    \"carteiraConvenio\": \"123456\",\r\n    \"validadeConvenio\": \"2023-12-31\",\r\n    \"enderecoId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/consultas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S14 - Atualização dos dados de Exames",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nomeCompleto\": \"Ciclano de Tal\",\r\n  \"genero\": \"Masculino\",\r\n  \"dataNascimento\": \"1995-02-15\",\r\n  \"estadoCivil\": \"Casado\",\r\n  \"telefone\": \"(11) 9876-5432\",\r\n  \"email\": \"ciclano@gmail.com\",\r\n  \"naturalidade\": \"Rio de Janeiro\",\r\n  \"alergias\": \"Alérgico a amendoim,Alérgico a camarão,Alérgico a lactose\",\r\n  \"cuidadosEspecificos\": \"Necessita de cuidados com a pele,Necessita de cuidados com a alimentação\",\r\n  \"contatoEmergencia\": \"(11) 9988-7766\",\r\n  \"convenio\": \"Bradesco Saúde\",\r\n  \"carteiraConvenio\": \"987654321\",\r\n  \"validadeConvenio\": \"2026-03-31\",\r\n  \"enderecoId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/consultas?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"consultas"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S15 - Listagem de Exame pelo identificador",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "S16 - Exclusão de Exame",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pacientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pacientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "S17 - Listagem de Estatísticas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/estatisticas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estatisticas"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
